@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest # mysql のdockerイメージを取ってくる
+    container_name: todo_db # 自由に決められる
+    volumes:
+      - ./mysql_data:/var/lib/mysql # データ永続化のためのボリューム
+      - ./sqls/init:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306 # 開放するポート
+    environment:
+      MYSQL_ROOT_PASSWORD: docker_pwd # sqlのrootユーザーでログインする時のパスワード
+      MYSQL_DATABASE: docker_db # sqlで初回起動時に作成されるデータベース名
+      MYSQL_USER: docker_user # sqlで初回起動時に作成されるユーザー名
+      MYSQL_PASSWORD: docker_user_pwd # sqlで初回起動時に作成されるユーザーのパスワード
+volumes:
+  mysql_data: # ローカルのディレクトリにデータを保存
